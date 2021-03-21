@@ -1,5 +1,6 @@
 module coordinatecomputation
-#(parameter MAX_OUTPUTS = 256)
+#(parameter MAX_OUTPUTS = 256,
+  parameter TILE_SIZE=256)
         (
          input wire clk,
          input wire reset_n,
@@ -8,16 +9,16 @@ module coordinatecomputation
          input wire[3:0] activation_indices[16],
          input wire[3:0] weight_dim,
          input wire[8:0] activation_dim,
-         output logic signed [15:0] row_coordinate[MAX_OUTPUTS],
-         output logic signed [15:0] column_coordinate[MAX_OUTPUTS]
+         output logic signed [$clog2(TILE_SIZE)-1:0] row_coordinate[MAX_OUTPUTS],
+         output logic signed [$clog2(TILE_SIZE)-1:0] column_coordinate[MAX_OUTPUTS]
        );
 
 
 logic [31:0] weight_index[16], activation_index[16], weight_index_row, weight_index_column, activation_index_row, activation_index_column;
 logic [31:0] next_activation_start, next_weight_start;
 
-logic signed [15:0] next_row_coordinate[MAX_OUTPUTS];
-logic signed [15:0] next_column_coordinate[MAX_OUTPUTS];
+logic signed [$clog2(TILE_SIZE)-1:0] next_row_coordinate[MAX_OUTPUTS];
+logic signed [$clog2(TILE_SIZE)-1:0] next_column_coordinate[MAX_OUTPUTS];
 integer i,j;
 
 always_comb begin

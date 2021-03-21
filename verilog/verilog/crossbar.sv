@@ -240,14 +240,15 @@ always_ff @(posedge clk or negedge reset_n) begin
 end
 */
 
+int k;
 task reset();
   crossbar_stall <= 0;
   inputs_sent <= 0;
-  for(i = 0; i<BANK_COUNT; i++) begin
-    buffer_write_enable[i] <= 0;
-    buffer_data_write[i] <= 0;
-    buffer_column_write[i] <= 0;
-    buffer_row_write[i] <= 0;
+  for(k = 0; k<BANK_COUNT; k++) begin
+    buffer_write_enable[k] <= 0;
+    buffer_data_write[k] <= 0;
+    buffer_column_write[k] <= 0;
+    buffer_row_write[k] <= 0;
   end
 endtask
 
